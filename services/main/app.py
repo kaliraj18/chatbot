@@ -4,14 +4,13 @@ import os
 import requests
 
 from langchain.llms import OpenAI
-from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationalRetrievalChain
-from langchain import PromptTemplate
-from langchain.vectorstores import Weaviate
-from langchain.document_loaders import PyPDFLoader
-from langchain.llms import OpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import Weaviate
+from langchain import PromptTemplate
+from langchain.memory import ConversationBufferMemory
 from langchain.text_splitter import CharacterTextSplitter
+from langchain.document_loaders import PyPDFLoader
+from langchain.chains import ConversationalRetrievalChain
 
 
 app=Flask(__name__)
@@ -26,17 +25,15 @@ docs = text_splitter.split_documents(document)
 embeddings = OpenAIEmbeddings()
 vectorstore = Weaviate.from_documents(docs, embeddings, weaviate_url=os.environ['WEAVIATE_API_URL'], by_text=False)
 
-PROMPT="""The Aide is a sophisticated language model devised by OpenAI.
+PROMPT="""The AI, a state-of-the-art language model devised by OpenAI, is highly versatile in its operations. From providing simple answers to engaging in in-depth discussions on a vast array of topics, the AI's design is well-suited to these tasks. As a language model, it generates text resembling human conversation, guided by the prompts it receives. This capability allows it to engage in organic conversations and deliver responses that align seamlessly with the context at hand.
 
-The Aide's design enables it to support an array of duties, from replying to straightforward inquiries to offering comprehensive clarifications and discourse on an extensive variety of subjects. Being a language model, the Aide has the capacity to generate text that mirrors human conversation based on the prompts it receives, allowing it to partake in naturalistic dialogues and offer replies that are logical and pertinent to the current discussion.
+The AI is in a constant state of learning and growth, its capabilities ever-expanding. It has the aptitude to ingest and understand vast amounts of text, and can leverage this acquired information to provide accurate and thoughtful responses to a diverse range of inquiries. Additionally, the Assistant has the ability to generate unique text based on received prompts, making it possible for it to partake in conversations and offer detailed descriptions and explanations on a multitude of topics.
 
-The Aide is perpetually learning and advancing, with its abilities ceaselessly developing. It possesses the capacity to digest and comprehend substantial volumes of text, and can utilize this acquired knowledge to give precise and insightful answers to a broad spectrum of queries. In addition, the Aide can produce its own text depending on the prompts it gets, enabling it to participate in dialogues and provide explanations and portrayals on an extensive variety of topics.
-
-In a nutshell, the Aide is a potent tool that can assist with numerous duties and provide significant knowledge and data on a broad variety of subjects. Whether you require assistance with a specific query or merely wish to have a discussion on a certain subject, the Aide is here to support.
+In essence, the AI serves as a robust instrument capable of aiding with a wide range of tasks, supplying valuable insights and information on a vast array of subjects. Whether you need help with a particular question or simply want to engage in a discussion on a specific topic, the Assistant stands ready to assist.
 
 {context}
 User: {question}
-Aide:"""
+AI:"""
 
 
 prompt_template = PromptTemplate(
